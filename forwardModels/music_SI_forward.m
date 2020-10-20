@@ -43,7 +43,7 @@ opt.maxLagT = 100e-3;
 opt.perfSliceT = 10; % in s
 
 % top folder where to store the results
-baseSaveFolder = JoNmusic2020.getPath('linearModelsResults');
+baseSaveFolder = JoNmusic2020.getPath('linearModelResults');
 
 
 %%

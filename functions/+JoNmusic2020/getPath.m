@@ -34,9 +34,9 @@ dataFolder = fullfile('..','..','data');
 %
 switch varargin{1}
     
-    case 'linearModelsResults'
+    case 'linearModelResults'
         % where to save results, or load them from to plot
-        topFolder = fullfile(dataFolder,'linearModelsResults');
+        topFolder = fullfile(dataFolder,'linearModesResults');
         
     case 'EEG'
         % where the EEG data is located

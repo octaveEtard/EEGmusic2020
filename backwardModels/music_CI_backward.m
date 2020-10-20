@@ -48,7 +48,7 @@ opt.maxLagT = opt.minLagT + 15e-3; % 15 ms reconstruction window
 opt.perfSliceT = 10; % in s
 
 % top folder where to store the results
-baseSaveFolder = JoNmusic2020.getPath('linearModelsResults');
+baseSaveFolder = JoNmusic2020.getPath('linearModelResults');
 
 
 %%
