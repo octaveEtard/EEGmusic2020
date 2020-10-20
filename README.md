@@ -18,9 +18,9 @@ By default, the following relative location of the analysis code and data is exp
 ` |     ├─── forwardModels`\
 ` |     ├─── ...`\
 ` ├─── data`         (architecture as implemented in the [Zenodo dataset](https://zenodo.org/))\
-` |     ├─── EEG`\
-` |     ├─── stimuli`\
-` |     ├─── ...`\
+`       ├─── EEG`\
+`       ├─── stimuli`\
+`       ├─── ...`\
 
 This behaviour is implemented in `functions\+JoNmusic2020\getPath.m`, and a different data folder location can be simply specified by editing this function. The expected organisation of the data folder (EEG and feature file locations, etc.) is further specified by the functions `makePathEEGFolder`, `makePathEEGFolder`, `makePathFeatureFiles` and `makePathSaveResults`. The file naming convention is implemented by `makeNameEEGDataFile` and `makeNameEEGDataFile`.
 
