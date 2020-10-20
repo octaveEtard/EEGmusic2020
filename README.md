@@ -8,7 +8,7 @@ Requires Matlab R2019b or newer (tested on R2019b & R2020a/b).
 ## Installation
 This code is based on the [LM package](https://github.com/octaveEtard/LMpackage), and requires it to be available in your Matlab path.
 
-Add the `functions` folder to your path. The code is structured as a main [Matlab package](https://uk.mathworks.com/help/matlab/matlab_oop/scoping-classes-with-packages.html) contained in `functions/+JoNmusic2020` to reduce the risk of shadowing any of the user's own functions. This package implements the analysis of the EEG data. A second auxilliary package (`functions/+pltools`) provides functions to plot the results.
+Add the `functions` folder to your path. The code is structured as a main [Matlab package](https://uk.mathworks.com/help/matlab/matlab_oop/scoping-classes-with-packages.html) contained in `functions/+JoNmusic2020` implementing the analysis of the EEG data. A second auxilliary package (`functions/+pltools`) provides functions to plot the results. The package orgnisation reduces the risk of shadowing any of the user's own functions.
 
 By default, the following relative location of the analysis code and data is expected:
 
