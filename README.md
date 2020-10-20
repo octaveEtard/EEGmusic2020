@@ -15,8 +15,8 @@ By default, the following relative location of the analysis code and data is exp
 `someFolder`\
 ` ├─── JoNmusic2020.git`  (arbitrary name: folder containing this repository)\
 ` │     ├─── functions`\
-` |     ├─── forwardModels`\
-` |     ├─── ...`\
+` │     ├─── forwardModels`\
+` │     ├─── ...`\
 ` └─── data`         (architecture as implemented in the [Zenodo dataset](https://zenodo.org/))\
 `       ├─── EEG`\
 `       ├─── stimuli`\
