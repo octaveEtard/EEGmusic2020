@@ -8,12 +8,12 @@ Requires Matlab R2019b or newer (tested on R2019b & R2020a/b).
 ## Installation
 This code is based on the [LM package](https://github.com/octaveEtard/LMpackage), and requires it to be available in your Matlab path.
 
-Add the `functions` folder to your path. The code is structured as a main [Matlab package](https://uk.mathworks.com/help/matlab/matlab_oop/scoping-classes-with-packages.html) contained in `functions/+JoNmusic2020` implementing the analysis of the EEG data. A second auxilliary package (`functions/+pltools`) provides functions to plot the results. The package organisation reduces the risk of shadowing any of the user's own functions.
+Add the `functions` folder to your path. The code is structured as a main [Matlab package](https://uk.mathworks.com/help/matlab/matlab_oop/scoping-classes-with-packages.html) contained in `functions/+EEGmusic2020` implementing the analysis of the EEG data. A second auxilliary package (`functions/+pltools`) provides functions to plot the results. The package organisation reduces the risk of shadowing any of the user's own functions.
 
 By default, the following relative location of the analysis code and data is expected:
 
 `someFolder`\
-` ├─── JoNmusic2020.git`  (arbitrary name: folder containing this repository)\
+` ├─── EEGmusic2020.git`  (arbitrary name: folder containing this repository)\
 ` │     ├─── functions`\
 ` │     ├─── forwardModels`\
 ` │     ├─── ...`\
@@ -22,12 +22,12 @@ By default, the following relative location of the analysis code and data is exp
 `       ├─── stimuli`\
 `       ├─── ...`
 
-This behaviour is implemented in `functions/+JoNmusic2020/getPath.m`, and a different data folder location can be simply specified by editing this function. The expected organisation of the data folder (EEG and feature file locations, etc.) is further specified by the functions `makePathEEGFolder`, `makePathFeatureFiles` and `makePathSaveResults`. The file naming convention is implemented by `makeNameEEGDataFile` and `makeNameEEGDataFile`.
+This behaviour is implemented in `functions/+EEGmusic2020/getPath.m`, and a different data folder location can be simply specified by editing this function. The expected organisation of the data folder (EEG and feature file locations, etc.) is further specified by the functions `makePathEEGFolder`, `makePathFeatureFiles` and `makePathSaveResults`. The file naming convention is implemented by `makeNameEEGDataFile` and `makeNameEEGDataFile`.
 
 ## Description
 This repository is structured as follow:
 
-* `functions/+JoNmusic2020`: contains analysis functions. Essentially wrapping functions to load the relevant EEG and stimulus data and pass them to the `LMpackage` functions, as well as cross-validation procedures
+* `functions/+EEGmusic2020`: contains analysis functions. Essentially wrapping functions to load the relevant EEG and stimulus data and pass them to the `LMpackage` functions, as well as cross-validation procedures
 
 * `functions/+pltools`: contains plotting functions
 
