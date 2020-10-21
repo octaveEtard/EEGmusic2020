@@ -1,7 +1,7 @@
-# JoNmusic2020
+# EEGmusic2020
 Octave Etard (octave.etard11@imperial.ac.uk)
 
-Analysis code for the Journal of Neuroscience submission setting out to investigate neural responses to the temporal fine structure of continuous musical pieces in a bipolar EEG dataset. The corresponding dataset is available on [Zenodo](https://zenodo.org/).
+Analysis code to investigate neural responses to the temporal fine structure of continuous musical pieces in a bipolar EEG dataset. The corresponding dataset is available on [Zenodo](https://zenodo.org/).
 
 Requires Matlab R2019b or newer (tested on R2019b & R2020a/b).
 
