@@ -1,7 +1,7 @@
 function topFolder = getPath(varargin)
 %
-% JoNmusic2020.linearBackwardModel
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.linearBackwardModel
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard
 %
 % This functions defines the base folder where the data to load, or results
@@ -10,7 +10,7 @@ function topFolder = getPath(varargin)
 % Currently assuming the following architecture:
 %
 % someFolder
-% |--- JoNmusic2020.git                 (arbitray name)
+% |--- EEGmusic2020.git                 (arbitray name)
 % |    |--- someFolder
 % |         |--- main analysis scripts
 % |--- data                             (location of 'dataFolder')
@@ -25,11 +25,11 @@ function topFolder = getPath(varargin)
 % 'path/to/top/folder/containing/data' if a different location is desired.
 dataFolder = fullfile('..','..','data');
 %
-% See 'JoNmusic2020.makePathEEGFolder' 'JoNmusic2020.makePathEEGFolder'
-% JoNmusic2020.'makePathFeatureFiles' JoNmusic2020.'makePathSaveResults'
+% See 'EEGmusic2020.makePathEEGFolder' 'EEGmusic2020.makePathEEGFolder'
+% EEGmusic2020.'makePathFeatureFiles' EEGmusic2020.'makePathSaveResults'
 % for the functions specifying the expected organisation of the data folder
 %
-% See 'JoNmusic2020.makeNameEEGDataFile' 'JoNmusic2020.makeNameEEGDataFile'
+% See 'EEGmusic2020.makeNameEEGDataFile' 'EEGmusic2020.makeNameEEGDataFile'
 % for the functions specifying the expected file names.
 %
 switch varargin{1}

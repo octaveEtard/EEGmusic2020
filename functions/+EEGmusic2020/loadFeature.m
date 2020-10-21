@@ -1,7 +1,7 @@
 function features = loadFeature(c)
 %
-% JoNmusic2020.loadFeature
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.loadFeature
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Load feature files, extract relevant fields and create 'features' matrix.

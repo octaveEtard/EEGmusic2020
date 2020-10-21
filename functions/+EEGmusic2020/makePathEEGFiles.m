@@ -1,7 +1,7 @@
 function pathEEGFiles = makePathEEGFiles(conditions,allSID,parts,EEGopt)
 %
-% JoNmusic2020.makePathEEGFiles
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.makePathEEGFiles
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Generate paths to EEG files. This function returns a cell
@@ -43,9 +43,9 @@ for iCond = 1:nCond
         for iSub = 1:nSub
             SID = allSID{iSub};
             % e.g. someFolder/Fs-5000/HP-115/EBIP01
-            eegFolder = JoNmusic2020.makePathEEGFolder(EEGopt.baseFolder,EEGproc{iCond},EEGopt.Fs,SID);
+            eegFolder = EEGmusic2020.makePathEEGFolder(EEGopt.baseFolder,EEGproc{iCond},EEGopt.Fs,SID);
             % e.g. 'HP-115-Fs-5000-EBIP01_fGs_2.set'
-            eegFileName = JoNmusic2020.makeNameEEGDataFile(EEGproc{iCond},EEGopt.Fs,SID,condition,iPart,'.set');
+            eegFileName = EEGmusic2020.makeNameEEGDataFile(EEGproc{iCond},EEGopt.Fs,SID,condition,iPart,'.set');
             pathEEGFiles{iiPart,iCond,iSub} = {eegFolder,eegFileName};
         end
     end

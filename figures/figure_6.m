@@ -1,6 +1,6 @@
 %
 % figure_6
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Plot Figure 6.
@@ -26,7 +26,7 @@ maxLagT = 15e-3;
 nInstru = 2;
 
 % top folder where the results are stored
-baseFolder = JoNmusic2020.getPath('behav');
+baseFolder = EEGmusic2020.getPath('behav');
 
 for iInstru = 1:nInstru
     for iAtt = 1:2
@@ -46,7 +46,7 @@ for iInstru = 1:nInstru
         end
         
         condition = sprintf('%s-%s',condition,attention{iAtt});
-        [saveName,saveFolder] = JoNmusic2020.makePathSaveResults(condition,EEGproc{iInstru},...
+        [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(condition,EEGproc{iInstru},...
             featureProc,featureTypeName,Fs,minLagT,maxLagT,'backward',baseSaveFolder);
         
         d  = load(fullfile(saveFolder,saveName));
@@ -94,7 +94,7 @@ minLagT = -45e-3;
 maxLagT = 100e-3;
 
 
-[saveName,saveFolder] = JoNmusic2020.makePathSaveResults(condition,EEGproc,...
+[saveName,saveFolder] = EEGmusic2020.makePathSaveResults(condition,EEGproc,...
     featureProc,featureTypeName,Fs,minLagT,maxLagT,'forward',baseSaveFolder);
 
 d = load(fullfile(saveFolder,saveName));
@@ -146,7 +146,7 @@ stdTRF = squeeze(std(trf,[],2));
 % fontsize and linewidth
 fts = 11; lwd = 1;
 % default colour & plotting parameters
-[col,col_null,shadingArgs,nsArgs,sgArgs] = JoNmusic2020.plotStyleArgs();
+[col,col_null,shadingArgs,nsArgs,sgArgs] = EEGmusic2020.plotStyleArgs();
 
 % --- bawckward model plotting parameters
 LBMParam = struct();
@@ -202,7 +202,7 @@ signif = pval_forward <= alpha_forward;
 axx(2) = nexttile(tl); hold on;
 ax = axx(2);
 
-[sgHandles,nsHandles] = JoNmusic2020.plot_trf(ax,tms,meanTRF,stdTRF,ROI,signif,...
+[sgHandles,nsHandles] = EEGmusic2020.plot_trf(ax,tms,meanTRF,stdTRF,ROI,signif,...
     {},nsArgs,shadingArgs,...
     col,col,col_null,lsty,fts,lgValues);
 

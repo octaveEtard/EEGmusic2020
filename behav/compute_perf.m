@@ -1,6 +1,6 @@
 %
 % compute_perf
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Compute behavioural performance on the vibrato detection task (True/False
@@ -21,7 +21,7 @@ maxRT = 2; % in s
 nVib = 10; % we expect 10 vibratos / track
 
 % change this to the folder containing the behavioural data
-baseFolder = JoNmusic2020.getPath('behav');
+baseFolder = EEGmusic2020.getPath('behav');
 % folder containing time of the vibratos
 vibTimeFolder = fullfile(baseFolder,'vibTime');
 

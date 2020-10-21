@@ -1,6 +1,6 @@
 %
 % music_SI_forward
-% Part of the JoNmusic2020 code.
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Train linear forward models in the Single Instrument conditions with
@@ -43,7 +43,7 @@ opt.maxLagT = 100e-3;
 opt.perfSliceT = 10; % in s
 
 % top folder where to store the results
-baseSaveFolder = JoNmusic2020.getPath('linearModelResults');
+baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 
 
 %%
@@ -51,8 +51,8 @@ nCond = numel(conditions);
 
 % where is the EEG / stimulus feature data located
 EEGopt = struct();
-EEGopt.baseFolder = JoNmusic2020.getPath('EEG','processed');
-featureOpt.baseFolder = JoNmusic2020.getPath('features');
+EEGopt.baseFolder = EEGmusic2020.getPath('EEG','processed');
+featureOpt.baseFolder = EEGmusic2020.getPath('features');
 
 EEGopt.Fs = Fs;
 featureOpt.Fs = Fs;
@@ -86,7 +86,7 @@ for iCond = 1:nCond
     % / condition (guitar or piano)
     EEGopt.proc = EEGproc{iCond};
     
-    [model,CC] = JoNmusic2020.linearForwardModel(conditions{iCond},SID,...
+    [model,CC] = EEGmusic2020.linearForwardModel(conditions{iCond},SID,...
         parts,EEGopt,featureOpt,fields,opt,trainOpt);
     
     %% save results
@@ -106,7 +106,7 @@ for iCond = 1:nCond
     d.CC = CC;
     d.model = model;
     
-    [saveName,saveFolder] = JoNmusic2020.makePathSaveResults(conditions{iCond},EEGopt.proc,...
+    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGopt.proc,...
         featureProc,featureOpt.typeName,Fs,opt.minLagT,opt.maxLagT,'forward',baseSaveFolder);
     
     LM.save(d,saveName,saveFolder);

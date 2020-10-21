@@ -1,6 +1,6 @@
 %
 % figure_5
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Plot Figure 5.
@@ -12,7 +12,7 @@
 %% Load results
 maxRT = 2; % in s
 % where are the results located
-saveFolder = JoNmusic2020.getPath('behav');
+saveFolder = EEGmusic2020.getPath('behav');
 saveName = sprintf('clickPerformance_RT_%.1f.mat', maxRT);
 
 
@@ -72,7 +72,7 @@ topLabels = {'A','B','C','D'};
 % jitter scatter plots in the x-direction
 maxJitter = 0.15;
 
-col = JoNmusic2020.plotStyleArgs(); % colors
+col = EEGmusic2020.plotStyleArgs(); % colors
 
 lwd_sub = 0.6;
 markerLineSpacing = 0.1;

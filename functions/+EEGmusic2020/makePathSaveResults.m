@@ -1,8 +1,8 @@
 function [saveName,saveFolder] = makePathSaveResults(condition,EEGproc,...
     featureProc,featureTypeName,Fs,minLagT,maxLagT,modelType,baseSaveFolder)
 %
-% JoNmusic2020.makePathSaveResults
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.makePathSaveResults
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Make file name and path to save results from forward or backward models.

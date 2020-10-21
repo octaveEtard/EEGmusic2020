@@ -1,7 +1,7 @@
 function eegFileName = makeNameEEGDataFile(proc,Fs,SID,condition,iPart,ext)
 %
-% JoNmusic2020.makeNameEEGDataFile
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% EEGmusic2020.makeNameEEGDataFile
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Generate name of EEG dataset according to the following convention:

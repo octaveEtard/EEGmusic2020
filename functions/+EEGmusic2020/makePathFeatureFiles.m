@@ -1,7 +1,7 @@
 function pathFeatureFiles = makePathFeatureFiles(conditions,parts,featureOpt,fields)
 %
-% JoNmusic2020.makePathFeatureFiles
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.makePathFeatureFiles
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Generate paths to stimulus feature files. This function returns a cell
@@ -65,7 +65,7 @@ for iCond = 1:nCond
             % e.g. someFolder/Fs-5000/LP-2000/waveform
             envFolder = fullfile(featureOpt.baseFolder,Fs_,featureOpt.proc,featureOpt.typeName);
             % e.g. 'feature_Fs-5000-LP-2000-waveform_invent_zv_1.25_PG_2
-            envFileName = JoNmusic2020.makeNameFeature(featureOpt,iPart);
+            envFileName = EEGmusic2020.makeNameFeature(featureOpt,iPart);
             
             c{iFeature} = {fullfile(envFolder,envFileName),fields};
         end

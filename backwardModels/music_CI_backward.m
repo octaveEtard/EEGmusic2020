@@ -1,6 +1,6 @@
 %
 % music_CI_backward
-% Part of the JoNmusic2020 code.
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Train linear backward models in the Competing Instrument conditions for
@@ -48,7 +48,7 @@ opt.maxLagT = opt.minLagT + 15e-3; % 15 ms reconstruction window
 opt.perfSliceT = 10; % in s
 
 % top folder where to store the results
-baseSaveFolder = JoNmusic2020.getPath('linearModelResults');
+baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 
 
 %%
@@ -56,8 +56,8 @@ nCond = numel(conditions);
 
 % where is the EEG / stimulus data located
 EEGopt = struct();
-EEGopt.baseFolder = JoNmusic2020.getPath('EEG','processed');
-featureOpt.baseFolder = JoNmusic2020.getPath('features');
+EEGopt.baseFolder = EEGmusic2020.getPath('EEG','processed');
+featureOpt.baseFolder = EEGmusic2020.getPath('features');
 
 EEGopt.Fs = Fs;
 featureOpt.Fs = Fs;
@@ -90,7 +90,7 @@ for iCond = 1:nCond
     EEGopt.procTrain = EEGproc{iCond};
     EEGopt.procTest = EEGproc{iCond};
 
-    CC = JoNmusic2020.linearBackwardModel(conditions{iCond},SID,parts,...
+    CC = EEGmusic2020.linearBackwardModel(conditions{iCond},SID,parts,...
     EEGopt,featureOpt,attention{iCond},opt,trainOpt);
 
     %% save results
@@ -110,7 +110,7 @@ for iCond = 1:nCond
     d.CC = CC;
     
     condition = sprintf('%s-%s',conditions{iCond},attention{iCond});
-    [saveName,saveFolder] = JoNmusic2020.makePathSaveResults(condition,EEGproc{iCond},...
+    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(condition,EEGproc{iCond},...
         featureOpt.proc,featureOpt.typeName,Fs,opt.minLagT,opt.maxLagT,'backward',baseSaveFolder);
     
     LM.save(d,saveName,saveFolder);

@@ -3,8 +3,8 @@ function [sgHandles,nsHandles] = plot_trf(ax,x,y,err,ROI,sg,...
     col,col_null,collShading,...
     lsty,fts,lgValues)
 %
-% JoNmusic2020.plot_trf
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.plot_trf
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard
 % 
 % Plot mean TRFs curve and shading around the mean.

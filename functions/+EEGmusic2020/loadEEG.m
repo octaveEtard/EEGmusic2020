@@ -1,7 +1,7 @@
 function [EEG,iB,iE] = loadEEG(c)
 %
-% JoNmusic2020.loadEEG
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.loadEEG
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Load EEG data set, remove 'Sound' channel, and return EEG data matrix,

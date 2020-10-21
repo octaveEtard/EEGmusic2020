@@ -1,7 +1,7 @@
 function eegFolder = makePathEEGFolder(baseFolder,proc,Fs,SID)
 %
-% JoNmusic2020.makePathEEGFolder
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% EEGmusic2020.makePathEEGFolder
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Generate path to EEG folder according to the following convention:

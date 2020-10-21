@@ -1,6 +1,6 @@
 %
 % figure_3A
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Plot Figure 3-A.
@@ -25,11 +25,11 @@ maxLagT = 100e-3;
 nCond = numel(conditions);
 
 % top folder where the results are stored
-baseSaveFolder = JoNmusic2020.getPath('linearModelsResults');
+baseSaveFolder = EEGmusic2020.getPath('linearModelsResults');
 
 for iCond = 1:nCond
     
-    [saveName,saveFolder] = JoNmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
     featureProc,featureTypeName,Fs,minLagT,maxLagT,'forward',baseSaveFolder);
     
     d  = load(fullfile(saveFolder,saveName));
@@ -113,7 +113,7 @@ lgValues = {'Guitar','Piano'};
 lgHandle = gobjects(2,1);
 
 % colors and linestyle
-[col,col_null,shadingArgs,nsArgs,sgArgs] = JoNmusic2020.plotStyleArgs();
+[col,col_null,shadingArgs,nsArgs,sgArgs] = EEGmusic2020.plotStyleArgs();
 lsty = {'-','-.'};
 
 signif = pval <= alpha;
@@ -125,7 +125,7 @@ stdTRF = stdTRF ./ yScaleFactor;
 fig = figure;
 ax = axes(); hold on;
 
-[sgHandles,nsHandles] = JoNmusic2020.plot_trf(ax,tms,meanTRF,stdTRF,ROI,signif,...
+[sgHandles,nsHandles] = EEGmusic2020.plot_trf(ax,tms,meanTRF,stdTRF,ROI,signif,...
     sgArgs,nsArgs,shadingArgs,...
     col,col_null,col_null,lsty,fts,lgValues);
 

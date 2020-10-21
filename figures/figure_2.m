@@ -1,6 +1,6 @@
 %
 % figure_2
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Plot Figure 2.
@@ -12,7 +12,7 @@
 % This code requires the miditoolbox and EEGLAB toolboxes.
 %
 %% get data to plot track pitch distribution
-pathToMIDIfiles = JoNmusic2020.getPath('MIDI');
+pathToMIDIfiles = EEGmusic2020.getPath('MIDI');
 tracks = [2:4,7:9]; % invention ID that were played
 nTracks = numel(tracks);
 
@@ -39,8 +39,8 @@ for iiTrack = 1:nTracks
     nmatGuitar = nmat(~nmat(:,iChan),:);
     nmatPiano = nmat(logical(nmat(:,iChan)),:);
     
-    pitch_parts{iiTrack,1} = JoNmusic2020.midiNoteToPitch(nmatGuitar(:,iPitch),baseF_guitar);
-    pitch_parts{iiTrack,2} = JoNmusic2020.midiNoteToPitch(nmatPiano(:,iPitch),baseF_piano);
+    pitch_parts{iiTrack,1} = EEGmusic2020.midiNoteToPitch(nmatGuitar(:,iPitch),baseF_guitar);
+    pitch_parts{iiTrack,2} = EEGmusic2020.midiNoteToPitch(nmatPiano(:,iPitch),baseF_piano);
     
 end
 
@@ -66,7 +66,7 @@ end
 
 %% Compute EEG auto-correlation
 % where is the EEG data stored
-baseFolder = JoNmusic2020.getPath('EEG','processed');
+baseFolder = EEGmusic2020.getPath('EEG','processed');
 % subject IDs to use
 allSID = 1:17;
 % 'EBIP01' to 'EBIP17'
@@ -95,13 +95,13 @@ for iCond = 1:nCond
         condition = allConditions{iCond};
         
         % EEG data folder
-        p = JoNmusic2020.makePathEEGFolder(baseFolder,proc{iCond},Fs,SID);
+        p = EEGmusic2020.makePathEEGFolder(baseFolder,proc{iCond},Fs,SID);
 
         for iPart = 1:nParts
             part = allParts(iPart);
-            f = JoNmusic2020.makeNameEEGDataFile(proc{iCond},Fs,SID,condition,part,'.set');
+            f = EEGmusic2020.makeNameEEGDataFile(proc{iCond},Fs,SID,condition,part,'.set');
             
-            [EEG,iB,iE] = JoNmusic2020.loadEEG({{p,f}});
+            [EEG,iB,iE] = EEGmusic2020.loadEEG({{p,f}});
             % data during stiumlus
             EEG = EEG(iB:iE,:);
             
@@ -114,7 +114,7 @@ end
 
 
 %% Plotting
-col = JoNmusic2020.plotStyleArgs(); % colors
+col = EEGmusic2020.plotStyleArgs(); % colors
 
 fts = 11;
 lwd = 1;

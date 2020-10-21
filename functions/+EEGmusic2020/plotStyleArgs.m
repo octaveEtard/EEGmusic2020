@@ -1,7 +1,7 @@
 function [col,col_null,shadingArgs,nsArgs,sgArgs] = plotStyleArgs()
 %
-% JoNmusic2020.plotStyleArgs
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.plotStyleArgs
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Return some plotting arguments to ensure consistent style across figures.

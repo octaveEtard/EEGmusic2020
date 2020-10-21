@@ -1,7 +1,7 @@
 function featureName = makeNameFeature( featureOpt, iPart )
 %
-% JoNmusic2020.makePathFeatureFiles
-% Part of the JoNmusic2020 code.
+% EEGmusic2020.makePathFeatureFiles
+% Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Generate the name of the file containing the requested feature (file name

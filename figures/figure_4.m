@@ -1,6 +1,6 @@
 %
 % figure_4
-% Part of the JoNmusic2020 code (github.com/octaveEtard/JoNmusic2020)
+% Part of the EEGmusic2020 code (github.com/octaveEtard/EEGmusic2020)
 % Author: Octave Etard, 2020
 %
 % Plot Figure 4.
@@ -27,13 +27,13 @@ nCond = numel(conditions);
 nTime = numel(minLagT);
 
 % top folder where the results are stored
-baseSaveFolder = JoNmusic2020.getPath('linearModelsResults');
+baseSaveFolder = EEGmusic2020.getPath('linearModelsResults');
 
 % Load data from each time window & for each instrument
 for it = 1:nTime
     for iCond = 1:nCond
         
-        [saveName,saveFolder] = JoNmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+        [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
             featureProc,featureTypeName,Fs,minLagT(it),maxLagT(it),'backward',baseSaveFolder);
         
         d  = load(fullfile(saveFolder,saveName));
@@ -128,7 +128,7 @@ end
 % fontsize and linewidth
 fts = 11; lwd = 1;
 % colours
-[col,col_null] = JoNmusic2020.plotStyleArgs();
+[col,col_null] = EEGmusic2020.plotStyleArgs();
 dyStars = 3e-3; % asterisks height above bars (data scale)
 
 % --- bar plot plotting parameters
