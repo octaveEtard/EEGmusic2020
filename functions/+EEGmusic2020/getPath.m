@@ -41,7 +41,7 @@ switch varargin{1}
     case 'EEG'
         % where the EEG data is located
         % varargin{2}: 'raw' or 'processed'
-        topFolder = fullfile(dataFolder,'EEG',varargin{2});
+        topFolder = fullfile(dataFolder,'EEGdata',varargin{2});
         
     case 'features'
         % where the stimulus features are located

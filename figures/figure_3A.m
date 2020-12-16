@@ -13,7 +13,7 @@
 %% Load forward model results
 conditions = {'fGs','fPs'};
 featureTypeName = 'waveform';
-EEGproc = {'HP-115','HP-115'};
+EEGproc = {'HP-80','HP-80'};
 
 featureProc = 'LP-2000';
 Fs = 5000;

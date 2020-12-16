@@ -12,8 +12,8 @@
 %
 %% Load forward model results
 condition = 'fGs-fPs';
-featureTypeName = {'waveform','WNO'};
-EEGproc = 'HP-175-HP-115';
+featureTypeName = {'waveform','rectified'};
+EEGproc = 'HP-80-HP-80';
 
 featureProc = 'LP-2000';
 Fs = 5000;
@@ -25,7 +25,7 @@ maxLagT = 100e-3;
 nFeatures = numel(featureTypeName);
 
 % top folder where the results are stored
-baseSaveFolder = EEGmusic2020.getPath('linearModelsResults');
+baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 
 for iFeature = 1:nFeatures
     
@@ -133,7 +133,7 @@ ax = axes(); hold on;
 uistack(nsHandles([2,1]),'top');
 uistack(sgHandles([2,1]),'top');
 
-ax.XAxis.Limits = [-10,45];
+ax.XAxis.Limits = [-100,45];
 ax.YAxis.TickValues = -1:1;
 
 pltools.formatAxisLabels(ax,fts,lwd);

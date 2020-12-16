@@ -7,7 +7,7 @@ function [saveName,saveFolder] = makePathSaveResults(condition,EEGproc,...
 %
 % Make file name and path to save results from forward or backward models.
 %
-[condition,EEGproc] = formatInput(condition,EEGproc);
+[condition,EEGproc,featureTypeName,featureProc] = formatInput(condition,EEGproc,featureTypeName,featureProc);
 
 saveName = sprintf('%s_%s_%s_%i_%ims.mat',modelType,condition,featureTypeName,1e3*minLagT,1e3*maxLagT);
 

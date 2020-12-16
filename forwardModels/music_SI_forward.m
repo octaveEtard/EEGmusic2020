@@ -19,15 +19,15 @@ SID = arrayfun(@(idx) sprintf('EBIP%02i',idx),SID,'UniformOutput',false);
 parts = 2:7;
 % conditions:
 % shorthands for the SI conditions 'focus(Guitar/Piano)Single'
-conditions = {'fGs'};%,'fPs'};
+conditions = {'fGs','fPs'};
 % sampling rate
 Fs = 5000;
 % processing of the EEG to use
-EEGproc = {'HP-115'};%,'HP-115'}; % high-passed at: guitar: 175 / piano: 115 Hz
+EEGproc = {'HP-80','HP-80'}; % high-passed at: guitar: 175 / piano: 115 Hz
 
 % name of the feature describing the stimulus
 featureOpt = struct();
-featureOpt.typeName = 'waveform';
+featureOpt.typeName = 'rectified';
 % processing of the feature
 featureProc = 'LP-2000'; % low-passed at 2000 Hz (anti-aliasing / resampling)
 fields = 'attended'; % only 1 instrument
