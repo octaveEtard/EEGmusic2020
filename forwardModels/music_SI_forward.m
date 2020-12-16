@@ -18,12 +18,12 @@ SID = arrayfun(@(idx) sprintf('EBIP%02i',idx),SID,'UniformOutput',false);
 % (1 was training block, not used)
 parts = 2:7;
 % conditions:
-% short hands for the SI conditions 'focus(Guitar/Piano)Single'
-conditions = {'fGs','fPs'};
+% shorthands for the SI conditions 'focus(Guitar/Piano)Single'
+conditions = {'fGs'};%,'fPs'};
 % sampling rate
 Fs = 5000;
 % processing of the EEG to use
-EEGproc = {'HP-175','HP-115'}; % high-passed at: guitar: 175 / piano: 115 Hz
+EEGproc = {'HP-115'};%,'HP-115'}; % high-passed at: guitar: 175 / piano: 115 Hz
 
 % name of the feature describing the stimulus
 featureOpt = struct();
@@ -86,7 +86,7 @@ for iCond = 1:nCond
     % / condition (guitar or piano)
     EEGopt.proc = EEGproc{iCond};
     
-    [model,CC] = EEGmusic2020.linearForwardModel(conditions{iCond},SID,...
+    [model,CC] = EEGmusic2020.linearForwardModel(conditions(iCond),SID,...
         parts,EEGopt,featureOpt,fields,opt,trainOpt);
     
     %% save results

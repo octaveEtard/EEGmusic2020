@@ -14,7 +14,7 @@ function [ns,sg,shading] = plot_tc(ax,x,y,err,ROI,sg,...
 if ~isempty(err)
     yMin = y - err;
     yMax = y + err;
-    shading = shadeYarea(ax,x,yMin,yMax,shadingArgs{:}); % FIXME
+    shading = pltools.shadeYarea(ax,x,yMin,yMax,shadingArgs{:}); % FIXME
 end
 
 % --- plot y

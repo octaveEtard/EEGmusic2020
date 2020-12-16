@@ -13,7 +13,7 @@
 %% Load forward model results
 conditions = {'fGs','fPs'};
 featureTypeName = 'waveform';
-EEGproc = {'HP-175','HP-115'};
+EEGproc = {'HP-115','HP-115'};
 
 featureProc = 'LP-2000';
 Fs = 5000;
@@ -25,7 +25,7 @@ maxLagT = 100e-3;
 nCond = numel(conditions);
 
 % top folder where the results are stored
-baseSaveFolder = EEGmusic2020.getPath('linearModelsResults');
+baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 
 for iCond = 1:nCond
     
@@ -49,6 +49,7 @@ for iCond = 1:nCond
 
     model(:,:,:,iCond) = d.model;
 end
+
 clear d;
 
 
