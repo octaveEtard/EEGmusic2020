@@ -41,8 +41,15 @@ opt.sumSub = false; % get data for all subjects to do cross-validation
 %% --- form the XtX for all the data, as well as Xty for all subjects
 % generate file paths
 EEGopt.proc = EEGopt.procTrain;
+
+if opt.mismatch
+    EEGConditions = opt.mismatchedCondition;
+else
+    EEGConditions = conditions;
+end
+
 featureFiles = EEGmusic2020.makePathFeatureFiles(conditions,parts,featureOpt,fields);
-EEGFiles = EEGmusic2020.makePathEEGFiles(conditions,SID,parts,EEGopt);
+EEGFiles = EEGmusic2020.makePathEEGFiles(EEGConditions,SID,parts,EEGopt);
 % load data & compute compute cross matrices
 [XtX,Xty,mX,mY,N] = LM.crossMatrices(featureFiles,EEGFiles,opt,'backward');
 
@@ -97,7 +104,7 @@ for iTestPart = 1:nParts
         
         % evaluating the model
         featureFiles_test = EEGmusic2020.makePathFeatureFiles(conditions,parts(iTestPart),featureOpt,fields);
-        EEGFiles_test = EEGmusic2020.makePathEEGFiles(conditions,SID(iTestSub),parts(iTestPart),EEGopt);
+        EEGFiles_test = EEGmusic2020.makePathEEGFiles(EEGConditions,SID(iTestSub),parts(iTestPart),EEGopt);
         
         CC(iTestPart,iTestSub,:) = LM.testModel(tmp_model,featureFiles_test,EEGFiles_test,opt,'backward',mX_train,mY_train);
     end

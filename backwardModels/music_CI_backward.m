@@ -18,26 +18,28 @@ SID = arrayfun(@(idx) sprintf('EBIP%02i',idx),SID,'UniformOutput',false);
 % (1 was training block, not used)
 parts = 2:7;
 % conditions:
-% use EEG data from condition{i} processed as EEGproc{i} to reconstruct
-% the instrument that was attention{i} in that condition
+% use EEG data processed as EEGproc to reconstruct either the attended or
+% the ignored instrument in each condition
 %
 % fGc = guitar attended x piano ignored
 % fPc = piano attended x guitar ignored
-% hence:
-% guitar attended / guitar ignored / piano attended / piano ignored:
-conditions = {'fGc',     'fPc',    'fPc',     'fGc'};
-EEGproc =	 {'HP-175',  'HP-175', 'HP-115',  'HP-115'};
-attention =  {'attended','ignored','attended','ignored'};
+%
+conditions = {'fGc', 'fPc'};
+EEGopt = [];
+EEGopt.proc = 'HP-130'; % high-passed at 130 Hz
+fields =  {'attended','ignored'};
 
 % sampling rate
 Fs = 5000;
 
 % name of the feature describing the stimulus
-featureOpt = struct();
+featureOpt = [];
 featureOpt.typeName = 'waveform';
 % processing of the feature
 featureOpt.proc = 'LP-2000'; % low-passed at 2000 Hz (anti-aliasing / resampling)
 
+opt = [];
+opt.mismatch = false;
 % time window in which to train the model ; understood as time lag of
 % predictor (here EEG) with respect to predicted (here stimulus) -->
 % positive latencies = EEG post stimulus = causal / meaningful
@@ -55,15 +57,16 @@ baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 nCond = numel(conditions);
 
 % where is the EEG / stimulus data located
-EEGopt = struct();
 EEGopt.baseFolder = EEGmusic2020.getPath('EEG','processed');
 featureOpt.baseFolder = EEGmusic2020.getPath('features');
 
 EEGopt.Fs = Fs;
 featureOpt.Fs = Fs;
+EEGopt.procTrain = EEGopt.proc;
+EEGopt.procTest = EEGopt.proc;
 
 % --- options for the LMpackage functions
-opt.nFeatures = 1; % 1 predicting 1 stimulus feature
+opt.nFeatures = 2; % predicting attended & ignored
 
 % ---
 % train subject specific decoders
@@ -72,7 +75,7 @@ opt.generic = false;
 opt.printProgress = true;
 
 % --- options for the ridge regression 
-trainOpt = struct();
+trainOpt = [];
 trainOpt.printOut = false;
 trainOpt.accumulate = true;
 trainOpt.method.name = 'ridge-eig-XtX'; % ridge regression
@@ -87,14 +90,11 @@ for iCond = 1:nCond
     end   
     % train & test (cross-validation) a backward model for each intrument
     % / condition  & subjects
-    EEGopt.procTrain = EEGproc{iCond};
-    EEGopt.procTest = EEGproc{iCond};
-
     CC = EEGmusic2020.linearBackwardModel(conditions{iCond},SID,parts,...
-    EEGopt,featureOpt,attention{iCond},opt,trainOpt);
+    EEGopt,featureOpt,fields,opt,trainOpt);
 
     %% save results
-    d = struct();
+    d = [];
     % parameters
     d.SID = SID;
     d.condition = conditions{iCond};
@@ -102,15 +102,15 @@ for iCond = 1:nCond
     
     d.EEG = EEGopt;  
     d.feature = featureOpt;
-    d.fields = attention{iCond};
+    d.fields = fields;
     d.opt = opt;
     d.train = trainOpt;
     
     % results
     d.CC = CC;
     
-    condition = sprintf('%s-%s',conditions{iCond},attention{iCond});
-    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(condition,EEGproc{iCond},...
+    condition = sprintf('%s-AI',conditions{iCond}); % (A)ttended & (I)gnored
+    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(condition,EEGopt.proc,...
         featureOpt.proc,featureOpt.typeName,Fs,opt.minLagT,opt.maxLagT,'backward',baseSaveFolder);
     
     LM.save(d,saveName,saveFolder);

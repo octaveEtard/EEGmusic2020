@@ -12,8 +12,8 @@
 %
 %% Load forward model results
 condition = 'fGs-fPs';
-featureTypeName = {'waveform','rectified'};
-EEGproc = 'HP-80-HP-80';
+featureTypeName = {'waveform','WNO'};
+EEGproc = 'HP-130-HP-130';
 
 featureProc = 'LP-2000';
 Fs = 5000;
@@ -133,10 +133,15 @@ ax = axes(); hold on;
 uistack(nsHandles([2,1]),'top');
 uistack(sgHandles([2,1]),'top');
 
-ax.XAxis.Limits = [-100,45];
+ax.XAxis.Limits = [-10,45];
 ax.YAxis.TickValues = -1:1;
 
 pltools.formatAxisLabels(ax,fts,lwd);
 pltools.topLeftLabel(ax,'B',fts);
+
+width = 15.25/2;
+height = 4;
+fileName = 'figure_3B';
+% pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',1);
 %
 %

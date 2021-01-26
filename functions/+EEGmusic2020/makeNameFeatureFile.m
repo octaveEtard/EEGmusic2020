@@ -1,16 +1,17 @@
-function featureName = makeNameFeature( featureOpt, iPart )
+function featureFileName = makeNameFeatureFile( featureOpt )
 %
-% EEGmusic2020.makePathFeatureFiles
+% EEGmusic2020.makeNameFeatureFile
 % Part of the EEGmusic2020 code.
 % Author: Octave Etard, 2020
 %
 % Generate the name of the file containing the requested feature (file name
 % with extension).
 %
-Fs = featureOpt.Fs; % samplingrate of the feature
+Fs = featureOpt.Fs; % sampling rate of the feature
 proc = featureOpt.proc; % processing (filtering) of the feature
 typeName = featureOpt.typeName; % feature name
 condition = featureOpt.condition; % condition associated with this feature
+iPart = featureOpt.part; % index of the part
 
 % could be added to featureOpt if dynamic changes are necessary
 vibType = 'zv'; % vibratos replaced by zeros
@@ -28,7 +29,7 @@ switch condition
 end
 
 % e.g. 'feature_Fs-5000-LP-2000-waveform_invent_zv_1.25_PGfP_2
-featureName = sprintf('feature_Fs-%i-%s-%s_%s.mat',Fs,proc,typeName,audioName);
+featureFileName = sprintf('feature_Fs-%i-%s-%s_%s.mat',Fs,proc,typeName,audioName);
 
 end
 %

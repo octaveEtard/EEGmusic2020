@@ -13,7 +13,7 @@
 %% Load forward model results
 conditions = {'fGs','fPs'};
 featureTypeName = 'waveform';
-EEGproc = {'HP-80','HP-80'};
+EEGproc = 'HP-130';
 
 featureProc = 'LP-2000';
 Fs = 5000;
@@ -29,7 +29,7 @@ baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 
 for iCond = 1:nCond
     
-    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc,...
     featureProc,featureTypeName,Fs,minLagT,maxLagT,'forward',baseSaveFolder);
     
     d  = load(fullfile(saveFolder,saveName));
@@ -135,9 +135,15 @@ uistack(nsHandles([2,1]),'top');
 uistack(sgHandles([2,1]),'top');
 
 ax.XAxis.Limits = [-10,45];
+ax.XAxis.TickValues = -10:10:40;
 ax.YAxis.TickValues = -1:1;
 
 pltools.formatAxisLabels(ax,fts,lwd);
 pltools.topLeftLabel(ax,'A',fts);
+
+width = 15.25/2;
+height = 4;
+fileName = 'figure_3A';
+pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',1);
 %
 %

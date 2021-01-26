@@ -46,28 +46,26 @@ assert( nFeatures == numel(featureProc) );
 nCond = numel(conditions);
 nParts = numel(parts);
 
-Fs = featureOpt.Fs;
-
 pathFeatureFiles = cell(nParts,nCond);
 
 for iCond = 1:nCond
     featureOpt.condition = conditions{iCond};
     
     for iiPart = 1:nParts
-        iPart = parts(iiPart);
+        featureOpt.part = parts(iiPart);
         
         c = cell(nFeatures,1);
         for iFeature = 1:nFeatures
             featureOpt.typeName = featureName{iFeature};
             featureOpt.proc = featureProc{iFeature};
             
-            Fs_ = sprintf('Fs-%i',Fs);
+
             % e.g. someFolder/Fs-5000/LP-2000/waveform
-            envFolder = fullfile(featureOpt.baseFolder,Fs_,featureOpt.proc,featureOpt.typeName);
+            featureFolderPath = EEGmusic2020.makePathFeatureFolder(featureOpt);
             % e.g. 'feature_Fs-5000-LP-2000-waveform_invent_zv_1.25_PG_2
-            envFileName = EEGmusic2020.makeNameFeature(featureOpt,iPart);
+            featureFileName = EEGmusic2020.makeNameFeatureFile(featureOpt);
             
-            c{iFeature} = {fullfile(envFolder,envFileName),fields};
+            c{iFeature} = {fullfile(featureFolderPath,featureFileName),fields};
         end
         pathFeatureFiles{iiPart,iCond} = c;
     end

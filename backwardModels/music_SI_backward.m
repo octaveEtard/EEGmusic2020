@@ -23,19 +23,24 @@ conditions = {'fGs','fPs'};
 % sampling rate
 Fs = 5000;
 % processing of the EEG to use
-EEGproc = {'HP-175','HP-115'}; % high-passed at: guitar: 175 / piano: 115 Hz
+EEGopt = [];
+EEGopt.proc = 'HP-130'; % high-passed at 130 Hz
 
 % name of the feature describing the stimulus
-featureOpt = struct();
+featureOpt = [];
 featureOpt.typeName = 'waveform';
 % processing of the feature
 featureOpt.proc = 'LP-2000'; % low-passed at 2000 Hz (anti-aliasing / resampling)
 fields = 'attended'; % only 1 instrument
 
+
 % time window in which to train the model ; understood as time lag of
 % predictor (here EEG) with respect to predicted (here stimulus) -->
 % positive latencies = EEG post stimulus = causal / meaningful
-opt = struct();
+opt = [];
+% mismatch stimulus and EEG; i.e. try to decode guitar stimulus from
+% EEG responses to (the corresponding) piano stimulus, and vice versa
+opt.mismatch = false;
 opt.minLagT = 0;
 opt.maxLagT = opt.minLagT + 15e-3; % 15 ms reconstruction window
 
@@ -50,13 +55,14 @@ baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 nCond = numel(conditions);
 
 % where is the EEG / stimulus data located
-EEGopt = struct();
 EEGopt.baseFolder = EEGmusic2020.getPath('EEG','processed');
 featureOpt.baseFolder = EEGmusic2020.getPath('features');
 
 EEGopt.Fs = Fs;
 featureOpt.Fs = Fs;
-
+EEGopt.procTrain = EEGopt.proc;
+EEGopt.procTest = EEGopt.proc;
+    
 % --- options for the LMpackage functions
 opt.nFeatures = 1; % 1 predicting 1 stimulus feature
 
@@ -67,7 +73,7 @@ opt.generic = false;
 opt.printProgress = true;
 
 % --- options for the ridge regression 
-trainOpt = struct();
+trainOpt = [];
 trainOpt.printOut = false;
 trainOpt.accumulate = true;
 trainOpt.method.name = 'ridge-eig-XtX'; % ridge regression
@@ -82,14 +88,15 @@ for iCond = 1:nCond
     end   
     % train & test (cross-validation) a backward model for each intrument
     % / condition  & subjects (guitar or piano)
-    EEGopt.procTrain = EEGproc{iCond};
-    EEGopt.procTest = EEGproc{iCond};
-
+    if opt.mismatch
+        opt.mismatchedCondition = conditions{3-iCond};
+    end
+    
     CC = EEGmusic2020.linearBackwardModel(conditions{iCond},SID,parts,...
         EEGopt,featureOpt,fields,opt,trainOpt);
 
     %% save results
-    d = struct();
+    d = [];
     % parameters
     d.SID = SID;
     d.condition = conditions{iCond};
@@ -104,8 +111,15 @@ for iCond = 1:nCond
     % results
     d.CC = CC;
     
-    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+    % note the condition in the name indicates which instrument was
+    % reconstructed whether opt.mismatch == true or not. However in the
+    % former case the EEG used to reconstruc the instrument was mismatched.
+    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGopt.proc,...
         featureOpt.proc,featureOpt.typeName,Fs,opt.minLagT,opt.maxLagT,'backward',baseSaveFolder);
+    
+    if opt.mismatch
+        saveName = ['mismatch_',saveName]; %#ok<AGROW>
+    end
     
     LM.save(d,saveName,saveFolder);
 end

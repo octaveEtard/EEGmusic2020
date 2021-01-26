@@ -23,11 +23,11 @@ conditions = {'fGc','fPc'};
 % sampling rate
 Fs = 5000;
 % processing of the EEG to use
-EEGopt = struct();
-EEGopt.proc  = 'HP-115'; % high-passed at 115 Hz as the data contains responses to guitar & piano
+EEGopt = [];
+EEGopt.proc  = 'HP-130'; % high-passed at 130 Hz
 
 % name of the feature describing the stimulus
-featureOpt = struct();
+featureOpt = [];
 featureOpt.typeName = 'waveform';
 % processing of the feature
 featureProc = 'LP-2000';  % low-passed at 2000 Hz (anti-aliasing / resampling)
@@ -36,7 +36,7 @@ fields = {'attended','ignored'}; % fitting the 2 instruments together
 % time window in which to train the model ; understood as time lag of
 % predictor (here stimulus) with respect to predicted (here EEG) -->
 % negative latencies = stimulus preceding EEG = causal / meaningful
-opt = struct();
+opt = [];
 opt.minLagT = -45e-3; % in s
 opt.maxLagT = 100e-3;
 
@@ -69,7 +69,7 @@ opt.generic = true;
 opt.printProgress = true;
 
 % --- options for the ridge regression
-trainOpt = struct();
+trainOpt = [];
 trainOpt.printOut = false;
 trainOpt.accumulate = true;
 trainOpt.method.name = 'ridge-eig-XtX'; % use ridge regression
@@ -85,7 +85,7 @@ trainOpt.method.normaliseLambda = true;
 
 
 %% save results
-d = struct();
+d = [];
 % parameters
 d.SID = SID;
 d.condition = conditions;

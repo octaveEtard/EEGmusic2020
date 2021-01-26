@@ -11,13 +11,13 @@ function features = loadFeature(c)
 %   c{1}: cell array of size nFeatures x 1, such for each element:
 %   c{1}{iFeature}: cell array of size 1 x 2 with
 %   c{1}{iFeature}{1}: path to feature file
-%   c{1}{iFeature}{1}: fields to load from that file
+%   c{1}{iFeature}{2}: fields to load from that file
 %
 % Ouput:
 %   features: matrix of size nPnts x nCol with:
 %       nPnts = number of points in all features
-%       sum( nFeatures * nFields(iFeautre)
-%
+%       nCol = sum( iFeature * nFields(iFeature))
+% [feature_1 <field_1..field_n1> feature_2 <field_1..field_n2> ...]
 c = c{1};
 nFeatures = numel(c);
 

@@ -5,19 +5,21 @@
 %
 % Plot Figure 4.
 %
-% 1 - Load results of backward model from different time windows
+% 1 - Load results of backward model from different time windows &
+%       with mismatched stimulus / EEG
 % 2 - Statistical analysis
 % 2 - Plot
 %
 %% Load backward model results
 conditions = {'fGs','fPs'};
 featureTypeName = 'waveform';
-EEGproc = {'HP-175','HP-115'};
+EEGproc = {'HP-130','HP-130'};
 
 featureProc = 'LP-2000';
 Fs = 5000;
 
-minLagT = [-15, 0, 15, 30]*1e-3;
+% last one --> mismatched
+minLagT = [-15, 0, 15, 30, 0]*1e-3;
 maxLagT = minLagT+15*1e-3;
 
 % analysing model with this regularisation coefficients
@@ -27,14 +29,20 @@ nCond = numel(conditions);
 nTime = numel(minLagT);
 
 % top folder where the results are stored
-baseSaveFolder = EEGmusic2020.getPath('linearModelsResults');
+baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 
 % Load data from each time window & for each instrument
 for it = 1:nTime
     for iCond = 1:nCond
         
-        [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
-            featureProc,featureTypeName,Fs,minLagT(it),maxLagT(it),'backward',baseSaveFolder);
+        if it == nTime
+            [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+                featureProc,featureTypeName,Fs,minLagT(2),maxLagT(2),'mismatch_backward',baseSaveFolder);
+        else
+            [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+                featureProc,featureTypeName,Fs,minLagT(it),maxLagT(it),'backward',baseSaveFolder);
+        end
+        
         
         d  = load(fullfile(saveFolder,saveName));
         
@@ -63,6 +71,8 @@ subCC = squeeze(mean(CC,1)); % mean value for each subject
 meanCC = squeeze(mean(subCC,1)); % mean value over the population
 stdCC = squeeze(std(subCC,[],1)); % std over the population
 
+nTime = nTime - 1; % last one corresponds to mismatched
+
 
 %% --- Stats
 % compare reconstruction for each subject in (0_15 ms) to (-15_0 ms)
@@ -75,9 +85,9 @@ for iCond = 1:nCond
     end
 end
 
-% compare reconstruction from (0_15 ms ; 15_30 ms ; 30_45ms) to
-% (-15--0ms) at the population level
-pval = nan(nTime-1,nCond);
+% compare reconstruction from (0_15 ms ; 15_30 ms ; 30_45ms) to (-15--0ms)
+% at the population level
+pval = nan(nTime,nCond);
 
 for it = 2:nTime
     for iCond = 1:nCond
@@ -85,6 +95,16 @@ for it = 2:nTime
         pval(it-1,iCond) = signrank(subCC(:,it,iCond),subCC(:,1,iCond),'tail','right');
     end
 end
+
+% compare reconstruction from (0_15 ms mismatched) to (-15--0ms) at the
+% population level
+pval_mism = nan(nCond,1);
+
+for iCond = 1:nCond
+    % Wilcoxon paired signed rank test
+    pval_mism(iCond) = signrank(subCC(:,end,iCond),subCC(:,1,iCond),'tail','right');
+end
+
 
 % Subject level stats: FDR correction for multiple comparison over subjects
 % x instruments
@@ -120,8 +140,19 @@ for iCond = 1:nCond
     end
 end
 
+fprintf('\nMismatched analysis:\n');
+for iCond = 1:nCond
+    if alpha0(end) < pval_mism(iCond)
+        s = 'not ';
+    else
+        s = '';
+    end
+    fprintf('\t%s %i_%i ms mismatched %ssignificant with p = %.2e\n',instru{iCond},1e3*minLagT(end),1e3*maxLagT(end),s,pval_mism(iCond));
+end
+
 % order in which to plot subjects (bar plot)
 [~,iSort] = sort(mean(subCC(:,2,:),3)); % mean correlation from 0_15 ms
+
 
 %% Plotting
 % --- for all plots
@@ -172,16 +203,16 @@ M = max(1.2*M,M+3*dyStars);
 
 
 % ---- Figure layout ---
-axx = gobjects(4,1);
+axx = gobjects(5,1);
 
 % width / height of each axis --> aspect ratio
-xSpan = [3,3,1,2];
-ySpan = [3,3,4,4];
+xSpan = [7,7,2,3,2];
+ySpan = [3,3,4,4,4];
 
 % figure layout:
 % <-  axx(1) ->
 % <-  axx(2) ->
-% axx(3) axx(4)
+% axx(3) axx(4) axx(5)
 nx = xSpan(1);
 ny = sum(ySpan(1:3));
 
@@ -197,7 +228,7 @@ for iCond = 1:nCond
     
     % 0_15 ms window
     bar((1:nSub)-bw/2,subCC(iSort,2,iCond),bw,...
-    'EdgeColor','none','FaceColor',col(iCond,:));
+        'EdgeColor','none','FaceColor',col(iCond,:));
     % -15_0 ms window (null)
     bar((1:nSub)+bw/2,subCC(iSort,1,iCond),bw,...
         'EdgeColor','none','FaceColor',col_null(iCond,:));
@@ -271,7 +302,7 @@ ax.XAxis.TickValues = [1.5,2.5+errParam1.instruStep];
 ax.XAxis.TickLabels = instru;
 ax.YAxis.Limits = [m,M];
 ax.YAxis.Label.String = 'Correlation coefficient';
-pltools.topLeftLabel(axx(3),'B',fts);
+pltools.topLeftLabel(axx(nCond+1),'B',fts);
 
 % --- Time window comparisons
 axx(nCond+2) = nexttile(tl,[ySpan(nCond+2),xSpan(nCond+2)]); hold on;
@@ -287,11 +318,11 @@ for iCond = 1:nCond
     
     % Other windows
     x = (2:nTime) + errParam2.instruStep*(iCond-1);
-    errorbar(ax,x,meanCC(2:end,iCond),stdCC(2:end,iCond),'o',...
+    errorbar(ax,x,meanCC(2:nTime,iCond),stdCC(2:nTime,iCond),'o',...
         'Color',col(iCond,:),'LineWidth',lwd_,'MarkerFaceColor','w');
     
     % for easy legend
-    lg(iCond) = plot(ax,x,meanCC(2:end,iCond),'o',...
+    lg(iCond) = plot(ax,x,meanCC(2:nTime,iCond),'o',...
         'Color',col(iCond,:),'LineWidth',lwd_,'MarkerFaceColor','w');
     
     % add pvalues
@@ -319,10 +350,56 @@ ax.XAxis.TickLabels = arrayfun(@(t1,t2) sprintf('%i to %i ms',1e3*t1,1e3*t2),...
 ax.XAxis.TickLabelRotation = 0;
 ax.YAxis.Limits = [m,M];
 legend(lg,instru,'box','off','Location','northeast','FontSize',fts);
-pltools.topLeftLabel(axx(4),'C',fts);
+pltools.topLeftLabel(axx(nCond+2),'C',fts);
+
+
+% --- Population comparison 0_15 ms mismatched vs -15_0 ms
+axx(nCond+3) = nexttile(tl,[ySpan(nCond+3),xSpan(nCond+3)]); hold on;
+ax = axx(nCond+3);
+
+for iCond = 1:nCond
+    
+    x = (1:2) + (iCond-1) * (1+errParam1.instruStep);
+    plot(x+errParam1.dx*[1,-1],subCC(:,[1,end],iCond),'Color',errParam1.grey,...
+        'LineWidth',errParam1.lwd_sub);
+    
+    % -15_0 ms window (null)
+    errorbar(x(1),meanCC(1,iCond),stdCC(1,iCond),'o',...
+        'Color',col_null(iCond,:),'LineWidth',lwd_,'MarkerFaceColor','w');
+    % 0_15 ms mismatched window
+    errorbar(x(2),meanCC(end,iCond),stdCC(end,iCond),'o',...
+        'Color',col(iCond,:),'LineWidth',lwd_,'MarkerFaceColor','w');
+    
+    % add asterisks
+    iSignifLevel = find(pval_mism(iCond) <= alpha0,1);
+    
+    if isempty(iSignifLevel)
+        continue;
+    end
+    p = stars{iSignifLevel};
+    
+    text(mean(x),errParam1.compLineY + dyStars,p,...
+        'Units','data','HorizontalAlignment','center',...
+        'VerticalAlignment','middle',...
+        'FontSize',fts);
+    
+    pltools.addComparisonLine(ax,x,errParam1.compLineY,dyStars,compLineArgs{:});
+end
+
+ax.XAxis.Limits = [1,x(end)]+errParam1.xLimits;
+ax.XAxis.TickValues = [1.5,2.5+errParam1.instruStep];
+ax.XAxis.TickLabels = instru;
+ax.YAxis.Limits = [m,M];
+pltools.topLeftLabel(axx(nCond+3),'D',fts);
+
 
 pltools.formatAxisLabels(axx,fts,lwd);
 tl.Padding = 'none';
 tl.TileSpacing = 'none';
+
+width = 15.25;
+height = 10;
+fileName = 'figure_4.pdf';
+pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',0);
 %
 %

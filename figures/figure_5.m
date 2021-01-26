@@ -187,5 +187,10 @@ axx(3).XAxis.FontSize = fts;
 axx(4).XAxis.FontSize = fts;
 
 arrayfun(@(i) pltools.topLeftLabel(axx(i),topLabels{i},fts),1:4);
+
+width = 8;
+height = 8;
+fileName = 'figure_5.pdf';
+pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',1);
 %
 %

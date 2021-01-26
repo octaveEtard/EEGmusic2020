@@ -23,11 +23,12 @@ conditions = {'fGs','fPs'};
 % sampling rate
 Fs = 5000;
 % processing of the EEG to use
-EEGproc = {'HP-80','HP-80'}; % high-passed at: guitar: 175 / piano: 115 Hz
+EEGopt = [];
+EEGopt.proc = 'HP-130'; % high-passed at 130 Hz
 
 % name of the feature describing the stimulus
-featureOpt = struct();
-featureOpt.typeName = 'rectified';
+featureOpt = [];
+featureOpt.typeName = 'waveform';
 % processing of the feature
 featureProc = 'LP-2000'; % low-passed at 2000 Hz (anti-aliasing / resampling)
 fields = 'attended'; % only 1 instrument
@@ -35,7 +36,7 @@ fields = 'attended'; % only 1 instrument
 % time window in which to train the model ; understood as time lag of
 % predictor (here stimulus) with respect to predicted (here EEG) -->
 % negative latencies = stimulus preceding EEG = causal / meaningful
-opt = struct();
+opt = [];
 opt.minLagT = -45e-3; % in s
 opt.maxLagT = 100e-3;
 
@@ -50,7 +51,6 @@ baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 nCond = numel(conditions);
 
 % where is the EEG / stimulus feature data located
-EEGopt = struct();
 EEGopt.baseFolder = EEGmusic2020.getPath('EEG','processed');
 featureOpt.baseFolder = EEGmusic2020.getPath('features');
 
@@ -69,7 +69,7 @@ opt.generic = true;
 opt.printProgress = true;
 
 % --- options for the ridge regression
-trainOpt = struct();
+trainOpt = [];
 trainOpt.printOut = false;
 trainOpt.accumulate = true;
 trainOpt.method.name = 'ridge-eig-XtX'; % use ridge regression
@@ -84,13 +84,11 @@ for iCond = 1:nCond
     end
     % train & test (cross-validation) a forward model for each intrument
     % / condition (guitar or piano)
-    EEGopt.proc = EEGproc{iCond};
-    
     [model,CC] = EEGmusic2020.linearForwardModel(conditions(iCond),SID,...
         parts,EEGopt,featureOpt,fields,opt,trainOpt);
     
     %% save results
-    d = struct();
+    d = [];
     % parameters
     d.SID = SID;
     d.condition = conditions{iCond};

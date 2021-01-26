@@ -11,7 +11,7 @@
 %
 %% Load backward model results
 featureTypeName = 'waveform';
-EEGproc = {'HP-175','HP-115'};
+EEGproc = 'HP-130';
 instrumentOrder = {'Guitar','Piano'};
 attention = {'attended','ignored'};
 
@@ -26,43 +26,36 @@ maxLagT = 15e-3;
 nInstru = 2;
 
 % top folder where the results are stored
-baseFolder = EEGmusic2020.getPath('behav');
+baseSaveFolder = EEGmusic2020.getPath('linearModelResults');
 
 for iInstru = 1:nInstru
-    for iAtt = 1:2
-        
-        if strcmp(instrumentOrder{iInstru},'Guitar')
-            if strcmp(attention{iAtt},'attended')
-                condition = 'fGc';
-            else
-                condition = 'fPc';
-            end
-        else
-            if strcmp(attention{iAtt},'attended')
-                condition = 'fPc';
-            else
-                condition = 'fGc';
-            end
-        end
-        
-        condition = sprintf('%s-%s',condition,attention{iAtt});
-        [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(condition,EEGproc{iInstru},...
-            featureProc,featureTypeName,Fs,minLagT,maxLagT,'backward',baseSaveFolder);
-        
-        d  = load(fullfile(saveFolder,saveName));
-        if iInstru == 1 && iAtt == 1
-            nSlices = sum(cellfun(@(m) size(m,1), d.CC(:,1)));
-            nSub = numel(d.SID);
-            lambda = d.train.method.lambda;
-            nLambda = numel(lambda);
-            
-            CC = nan([nSlices,nSub,nLambda,2,nInstru]);
-        end
-        
-        tmp = vertcat(d.CC{:});
-        CC(:,:,:,iAtt,iInstru) = reshape(tmp,[nSlices,nSub,nLambda]);
+    
+    condition = sprintf('f%sc-AI',instrumentOrder{iInstru}(1));
+    [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(condition,EEGproc,...
+        featureProc,featureTypeName,Fs,minLagT,maxLagT,'backward',baseSaveFolder);
+    
+    d  = load(fullfile(saveFolder,saveName));
+    
+    if iInstru == 1
+        nSlices = sum(cellfun(@(m) size(m,1), d.CC(:,1)));
+        nSub = numel(d.SID);
+        lambda = d.train.method.lambda;
+        nLambda = numel(lambda);
+        % slices x nSub x nLambda x attention x condition
+        CC = nan([nSlices,nSub,nLambda,2,nInstru]);
     end
+    
+    tmp = vertcat(d.CC{:});
+    CC(:,:,:,:,iInstru) = reshape(tmp,[nSlices,nSub,nLambda,2]);
 end
+% now CC contains (attended / ignored) x condition, that is:
+%    piano A / guitar I for fGc
+%   guitar A / piano I for fPc
+% we want (attended / ignored) x instrument instead, that is:
+%    A / I for piano
+%    A / I for guitar
+% hence:
+CC(:,:,:,2,:) = CC(:,:,:,2,[2,1]);
 
 iL0 = find(lambda == lambda0,1);
 assert(lambda(iL0) == lambda0,'Could not find requested lambda in data');
@@ -81,15 +74,15 @@ for iInstru = 1:nInstru
     % Wilcoxon paired signed rank test for zero median.
     pval_backward(iInstru) = signrank(subCC(:,1,iInstru),subCC(:,2,iInstru));
 end
-% FDR correction
+% % FDR correction
 pval_backward_fdr = fdr(pval_backward)
 % pval_backward_fdr = fdr_th(pval_backward)
 
 
 %% Load forward model results
 condition = 'fGc-fPc'; % pooled data over the 2 CI conditions
-EEGproc = 'HP-115';
-
+EEGproc = 'HP-130';
+featureProc = 'LP-2000';
 minLagT = -45e-3;
 maxLagT = 100e-3;
 
@@ -215,5 +208,10 @@ tl.TileSpacing = 'none';
 
 pltools.topLeftLabel(axx(1),'A',fts);
 pltools.topLeftLabel(axx(2),'B',fts);
+
+width = 15.25;
+height = 5;
+fileName = 'figure_6.pdf';
+% pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',0);
 %
 %
