@@ -40,7 +40,7 @@ fields = 'attended'; % only 1 instrument
 opt = [];
 % mismatch stimulus and EEG; i.e. try to decode guitar stimulus from
 % EEG responses to (the corresponding) piano stimulus, and vice versa
-opt.mismatch = false;
+opt.mismatch = true;
 opt.minLagT = 0;
 opt.maxLagT = opt.minLagT + 15e-3; % 15 ms reconstruction window
 

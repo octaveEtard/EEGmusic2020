@@ -75,8 +75,8 @@ for iInstru = 1:nInstru
     pval_backward(iInstru) = signrank(subCC(:,1,iInstru),subCC(:,2,iInstru));
 end
 % % FDR correction
-pval_backward_fdr = fdr(pval_backward)
-% pval_backward_fdr = fdr_th(pval_backward)
+% pval_backward_fdr = fdr(pval_backward)
+pval_backward_fdr = fdr_th(pval_backward)
 
 
 %% Load forward model results

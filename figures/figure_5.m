@@ -42,6 +42,7 @@ pval_GP(2) = signrank(TPR(:,2),FPR(:,2)); % T vs F for piano
 
 % FDR correction
 pval_FDR = fdr([pval_TF;pval_GP]);
+% pval_FDR = fdr_th([pval_TF;pval_GP]); % increased precision
 pval_TF = pval_FDR(1:2);
 pval_GP = pval_FDR(3:4);
 
@@ -50,12 +51,12 @@ alpha0 = 5/100;
 
 % print some values in terminal
 m = mean(dp,1);
-fprintf('Average d'': %.1f %s, %.1f %s ; pval = %.1e\n\n',m(1),instrumentOrder{1},...
+fprintf('Average d'': %.1f %s, %.1f %s ; pval = %.2e\n\n',m(1),instrumentOrder{1},...
     m(2),instrumentOrder{2},pval_dp);
-fprintf('TPR, %s vs %s, pval = %.1e\n',instrumentOrder{:},pval_TF(1));
-fprintf('FPR, %s vs %s, pval = %.1e\n',instrumentOrder{:},pval_TF(2));
-fprintf('%s, TPR vs FPR, pval = %.1e\n',instrumentOrder{1},pval_GP(1));
-fprintf('%s, TPR vs FPR, pval = %.1e\n',instrumentOrder{2},pval_GP(2));
+fprintf('TPR, %s vs %s, pval = %.2e\n',instrumentOrder{:},pval_TF(1));
+fprintf('FPR, %s vs %s, pval = %.2e\n',instrumentOrder{:},pval_TF(2));
+fprintf('%s, TPR vs FPR, pval = %.2e\n',instrumentOrder{1},pval_GP(1));
+fprintf('%s, TPR vs FPR, pval = %.2e\n',instrumentOrder{2},pval_GP(2));
 
 
 %% Plot
@@ -191,6 +192,6 @@ arrayfun(@(i) pltools.topLeftLabel(axx(i),topLabels{i},fts),1:4);
 width = 8;
 height = 8;
 fileName = 'figure_5.pdf';
-pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',1);
+% pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',1);
 %
 %

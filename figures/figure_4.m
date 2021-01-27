@@ -13,13 +13,12 @@
 %% Load backward model results
 conditions = {'fGs','fPs'};
 featureTypeName = 'waveform';
-EEGproc = {'HP-130','HP-130'};
+EEGproc = 'HP-130';
 
 featureProc = 'LP-2000';
 Fs = 5000;
 
-% last one --> mismatched
-minLagT = [-15, 0, 15, 30, 0]*1e-3;
+minLagT = [-15, 0, 15, 30, 0]*1e-3; % last one --> mismatched
 maxLagT = minLagT+15*1e-3;
 
 % analysing model with this regularisation coefficients
@@ -36,13 +35,12 @@ for it = 1:nTime
     for iCond = 1:nCond
         
         if it == nTime
-            [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+            [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc,...
                 featureProc,featureTypeName,Fs,minLagT(2),maxLagT(2),'mismatch_backward',baseSaveFolder);
         else
-            [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc{iCond},...
+            [saveName,saveFolder] = EEGmusic2020.makePathSaveResults(conditions{iCond},EEGproc,...
                 featureProc,featureTypeName,Fs,minLagT(it),maxLagT(it),'backward',baseSaveFolder);
         end
-        
         
         d  = load(fullfile(saveFolder,saveName));
         
@@ -400,6 +398,6 @@ tl.TileSpacing = 'none';
 width = 15.25;
 height = 10;
 fileName = 'figure_4.pdf';
-pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',0);
+% pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',0);
 %
 %

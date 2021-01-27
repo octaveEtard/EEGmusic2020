@@ -168,14 +168,6 @@ fts = 11;
 lwd = 1;
 mks = 3;
 
-% % 3 row plot
-% xSpan = [1,1,2,2];
-% ySpan = [5,5,4,4];
-% 
-% % 3 row plot
-% nTiles_x = xSpan(end);
-% nTiles_y = ySpan(1)+ySpan(3)+ySpan(4);
-
 % 3 row plot
 xSpan = [1,1,2];
 ySpan = [5,5,4];
@@ -209,20 +201,12 @@ end
 % auto-correlation plots
 tms = 1e3*(-maxLag:maxLag)/Fs;
 
-% music
-% axx(3) = nexttile(tl,[ySpan(3),xSpan(3)]); hold on;
-% 
-% for iInstru = 1:2
-%     plot(tms,axc_music(:,iInstru),'Color',col(iInstru,:),'LineWidth',lwd);
-% end
-
 % EEG
 axx(end) = nexttile(tl,[ySpan(end),xSpan(end)]); hold on;
 
 for iInstru = 1:2
     plot(tms,axc_EEG,'Color',col_null(1,:),'LineWidth',lwd);
 end
-
 
 % formatting
 axx(1).YAxis.Label.String = 'Probability';
@@ -254,7 +238,6 @@ tl.TileSpacing = 'none';
 pltools.topLeftLabel(axx(1),'A',fts);
 pltools.topLeftLabel(axx(2),'B',fts);
 pltools.topLeftLabel(axx(3),'C',fts);
-% pltools.topLeftLabel(ax4,'D',fts);
 
 width = 9;
 height = 7;

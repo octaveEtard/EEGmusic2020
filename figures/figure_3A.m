@@ -144,6 +144,6 @@ pltools.topLeftLabel(ax,'A',fts);
 width = 15.25/2;
 height = 4;
 fileName = 'figure_3A';
-pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',1);
+% pltools.printFigure(fig,'',fileName,600,width,height,1,1,1,'pdf',1);
 %
 %
