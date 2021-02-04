@@ -24,7 +24,7 @@ conditions = {'fGs','fPs'};
 Fs = 5000;
 % processing of the EEG to use for each condition
 EEGopt = [];
-EEGopt.proc = {'HP-130','HP-130'}; % high-passed at guitar: 175 / piano: 115 Hz
+EEGopt.proc = {'HP-130','HP-130'}; % high-passed at 130 Hz
 
 % name of the feature describing the stimulus
 featureOpt = [];
