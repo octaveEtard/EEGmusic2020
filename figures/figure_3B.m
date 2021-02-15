@@ -83,9 +83,6 @@ nROI = sum(ROI); % number of points in the region of interest
 % testing ROI vs baseline
 pval = nan(nROI,nFeatures);
 
-mu = nan(2,1);
-sigma = nan(2,1);
-
 for iFeature = 1:2
     % get null distribution by fitting Gaussian pdf to the pooled values
     % from the baseline

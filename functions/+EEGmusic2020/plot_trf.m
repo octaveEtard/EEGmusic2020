@@ -6,7 +6,7 @@ function [sgHandles,nsHandles] = plot_trf(ax,x,y,err,ROI,sg,...
 % EEGmusic2020.plot_trf
 % Part of the EEGmusic2020 code.
 % Author: Octave Etard
-% 
+%
 % Plot mean TRFs curve and shading around the mean.
 %
 n = size(y,2);
@@ -21,7 +21,7 @@ sgHandles = gobjects(n,1);
 
 % for each column in y, plot y(:,iCol) against x, with a shading
 % corresponding to +/- err(:,iCol) around y(:,iCol)
-for itc = 1:n  
+for itc = 1:n
     shadingArgs_ = [shadingArgs,'FaceColor',collShading(itc,:)];
     nsArgs_ = [nsArgs,'Color',col_null(itc,:),'LineStyle',lsty{itc}];
     sgArgs_ = [sgArgs,'Color',col(itc,:),'LineStyle',lsty{itc}];
@@ -44,11 +44,12 @@ end
 ax.XAxis.Label.String = 'Time (ms)';
 ax.YAxis.Label.String = 'Amplitude (a.u.)';
 
-legend(lgHandle,lgValues,...
-    'box','off',...
-    'Location','northeast',...
-    'FontSize',fts);
-
+if ~isempty(lgValues)
+    legend(lgHandle,lgValues,...
+        'box','off',...
+        'Location','northeast',...
+        'FontSize',fts);
+end
 m = max(abs([y+err,y-err]),[],'all');
 ax.YAxis.Limits = m*[-1,1];
 end
