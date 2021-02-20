@@ -75,8 +75,8 @@ for iInstru = 1:nInstru
     pval_backward(iInstru) = signrank(subCC(:,1,iInstru),subCC(:,2,iInstru));
 end
 % % FDR correction
-% pval_backward_fdr = fdr(pval_backward)
-pval_backward_fdr = fdr_th(pval_backward)
+pval_backward_fdr = fdr(pval_backward)
+% pval_backward_fdr = fdr_th(pval_backward)
 
 
 %% Load forward model results
@@ -93,7 +93,7 @@ maxLagT = 100e-3;
 d = load(fullfile(saveFolder,saveName));
 
 nSlices = sum(cellfun(@(m) size(m,1), d.CC(:,1)));
-nChan =2;
+nChan = 2;
 nSub = numel(d.SID);
 lambda = d.train.method.lambda;
 nLambda = numel(lambda);
@@ -121,10 +121,10 @@ idxROI = find(ROI); % index of points in ROI
 pval_forward = nan(nROI,1);
 % attention test
 for it = 1:nROI
-    pval_forward(it) = signrank(squeeze(trf(idxROI(it),1,:)),squeeze(trf(idxROI(it),2,:)));
+    pval_forward(it) = signrank(trf(idxROI(it),:,1),trf(idxROI(it),:,2));
 end
 % significance level
-alpha0 = 5/100;
+alpha0 = 1/100;
 % FDR correction: corrected significance level
 alpha_forward = fdr( pval_forward, alpha0 );
 
@@ -192,6 +192,11 @@ lgValues = {'Attended','Ignored'}; % legend
 
 signif = pval_forward <= alpha_forward;
 
+% for display purposes
+m = max(abs([meanTRF+stdTRF,meanTRF-stdTRF]),[],'all');
+meanTRF = meanTRF / m;
+stdTRF = stdTRF / m;
+
 axx(2) = nexttile(tl); hold on;
 ax = axx(2);
 
@@ -200,7 +205,7 @@ ax = axx(2);
     col,col,col_null,lsty,fts,lgValues);
 
 ax.XAxis.Limits = [-10,45];
-ax.YAxis.TickValues = -1:1;
+ax.YAxis.TickValues = [-1,1];
 
 pltools.formatAxisLabels(axx,fts,lwd);
 tl.Padding = 'none';
